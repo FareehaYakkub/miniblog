@@ -25,10 +25,11 @@ export default function Home({ quote, posts }) {
 export async function getServerSideProps(context) {
   const host = context.req.headers.host;
   const protocol = host.includes('localhost') ? 'http' : 'https';
+  const baseUrl = `${protocol}://${host}`;
 
   const [quoteRes, postRes] = await Promise.all([
     fetch('http://api.quotable.io/random'),
-    fetch(`${protocol}://${host}/api/posts`),
+    fetch(`${baseUrl}/api/posts`),
   ]);
 
   const [quote, posts] = await Promise.all([
@@ -43,3 +44,4 @@ export async function getServerSideProps(context) {
     },
   };
 }
+
